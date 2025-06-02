@@ -43,9 +43,9 @@ void show() {
     if (!empty ()){
         cout<<"\n----Menampilkan Daftar Barang ----\n";
         for(int i = stack.top; i>=0; i--) {
-            cout<<"id          : "<< stack.data[i].id<<endl;
-            cout<<"nama        : "<< stack.data[i].nama<<endl;
-            cout<<"jumlah      : "<< stack.data[i].jumlah<<endl;
+            cout<<"Id          : "<< stack.data[i].id<<endl;
+            cout<<"Nama        : "<< stack.data[i].nama<<endl;
+            cout<<"Jumlah      : "<< stack.data[i].jumlah<<endl;
         }
     }else {
         cout<<"\nStack Kosong";
