@@ -38,3 +38,15 @@ bool empty() {  //satria
     return stack.top == -1;
 }
 
+void show() {
+    if (!empty ()){
+        cout<<"\n----Menampilkan Daftar Barang ----\n";
+        for(int i = stack.top; i>=0; i--) {
+            cout<<"ID       : "<< stack.data[i].kode<<endl;
+            cout<<"Nama       : "<< stack.data[i].Nama<<endl;
+            cout<<"Jumlah       : "<< stack.data[i].Jumlah<<endl;
+        }
+    }else {
+        cout<<"\nStack Kosong";
+    } cin.get();
+}
