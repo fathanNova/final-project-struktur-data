@@ -1,35 +1,40 @@
 #include <iostream>
+#include <conio.h>
 using namespace std;
+#define max 50
+
+struct barangGudang{
+    int id;
+    string nama;
+    int jumlah;
+}barang;
+
+struct stackBarang{
+    barangGudang data[max];
+    int top;
+}stack;
+
+void init();
+bool full();
+bool empty();
 
 int main(){
-    cout<<"Hello World!";
+    init();
+
+    do{
+
+    }while(true);
 }
 
-void inS(){    //Satria
+void init(){    //Satria
     stack.top = -1;
 }
 
 bool full (){ //Satria
-    return stack.top == maxS-1;
+    return stack.top == max-1;
 }
 
 bool empty() {  //satria
     return stack.top == -1;
 }
 
-void show(){
-    if(!empty()){
-        cout<<"\n--- Menampilkan Daftar Barang ---\n";
-        for(int i = stack.top; i >=0 ; i--){
-            cout<<"ID       : "<< stack.data[i].kode<<endl;
-            cout<<"Nama     : "<< stack.data[i].nama<<endl;
-            cout<<"Harga    : "<< stack.data[i].harga<<endl;
-            cout<<"Stok     : "<< stack.data[i].stok<<endl;
-            cout<<endl;
-        }
-    }else{
-        cout<<"\nStack Kosong!";
-    }
-   // getchar();
-    cin.get();
-}
