@@ -17,16 +17,22 @@ bool empty() {  //satria
     return stack.top == -1;
 }
 
-void show () {  //satria
-    if (!empty ()){
-        cout<<"\n---- Menampilkan Daftar Barang ----\n";
-        for (int i = stack.top; i >=0; i--){
-            cout<<"ID         : "<<stack.data[i].kode<<endl;
-            cout<<"Nama       : "<<stack.data[i].nama<<endl;
-            cout<<"Harga      : "<<stack.data[i].harga<<endl;
-            cout<<"Stok       : "<<stack.data[i].stok<<endl;
+void show_barang() { //satria
+    system("cls");
+    cout << "Show Barang (Stack)\n";
+    if (front > rear) {
+        cout << "Stack kosong!\n";
+    } else {
+        cout << setw(5) << "ID"
+             << setw(20) << "Nama"
+             << setw(10) << "Harga"
+             << setw(10) << "Stock" << endl;
+        for (int i = front; i <= rear; i++) {
+            cout << setw(5) << db[i].id
+                 << setw(20) << db[i].nama
+                 << setw(10) << db[i].harga
+                 << setw(10) << db[i].stock << endl;
         }
-    }else{
-        cout<<"\nStack Kosong!";
-    } cin.get();
+    }
+    system("pause");
 }
