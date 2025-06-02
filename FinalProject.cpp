@@ -5,19 +5,19 @@ int main(){
     cout<<"Hello World!";
 }
 
-void inS(){
+void inS(){    //Satria
     stack.top = -1;
 }
 
-bool full (){
+bool full (){ //Satria
     return stack.top == maxS-1;
 }
 
-bool empty() {
+bool empty() {  //satria
     return stack.top == -1;
 }
 
-void show () {
+void show () {  //satria
     if (!empty ()){
         cout<<"\n---- Menampilkan Daftar Barang ----\n";
         for (int i = stack.top; i >=0; i--){
