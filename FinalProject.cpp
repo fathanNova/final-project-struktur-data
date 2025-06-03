@@ -18,13 +18,43 @@ void init();
 bool full();
 bool empty();
 void show();
-
-int main(){
+void push(); //fungsi menampilkan barang baru
+void searchByName();
+void searchById();
+int main() {
     init();
-
+    int choice; // untuk menampilkan menu pilihan
+    
     do{
-
-    }while(true);
+      cout << " \n-----Menu-----\n";
+      cout << "1. Tambahkan Baarang\n";
+      cout << "2. Tampilkan Barang\n";
+      cout << "3. Cari Barang Berdasarkan Nama\n";
+      cout << "4. Cari Barang Berdasarkan ID\n";
+      cout << "5. Keluar\n";
+      cout << "Pilih Opsi lain : ";
+      cin >> choice;
+        switch (choice) {
+            case 1:
+            push();
+            break;
+            case 2:
+            show();
+            break;
+            case 3:
+            searchByName();
+            break;
+            case 4:
+            searchById();
+            break;
+            case 5:
+            cout <<" Keluar dari program.\n";
+            break;
+            default:
+            cout << "Pilihan tidak valid. Silahkan coba lagi./n";
+    }
+    }while(choice != 5);
+        return 0;
 }
 
 void init(){    //Satria
@@ -49,5 +79,63 @@ void show() {
         }
     }else {
         cout<<"\nStack Kosong";
-    } cin.get();
+    } 
+    cin.get();
+}
+
+void push() {
+    if (!full()) {
+cout << "Masukkan ID Barang: ";
+cin >> barang.id;
+cout << "Masukkan Nama Barang:";
+cin >> barang.nama;
+cout << "Masukkan Jumlah Barang:";
+cin >> barang.jumlah;
+stack.data[++stack.top] = barang;
+}else {
+cout <<"Stack sudah penuh.\n";
+    }
+}
+
+void searchByName() {
+    string name;
+cout << " Masukkan Nama Barang yang dicari: ";
+cin >> name;
+bool found = false;
+
+for (int i = 0; i <= stack.top; i++) {
+if (stack.data [i].nama == name) {
+cout << "Barang ditemukan:\n";
+cout << " ID      : " << stack.data[i].id<< endl;
+cout << "Nama     : " << stack.data[i].nama<< endl;
+cout << "Jumlah   : " << stack.data[i].jumlah << endl;
+found = true;
+break;
+}
+}
+
+if (!found) {
+cout << " Barang dengan nama '"<< name << "' tidak ditemukan.\n";
+}
+}
+
+void searchById() {
+    int id;
+cout << " Masukkan ID barang yang dicari: ";
+cin >> id;
+bool found = false;
+
+for (int i = 0; i <= stack.top; i++) {
+if (stack.data[i].id == id) {
+cout << "Barang ditemukkan:\n";
+cout  << " ID    : " << stack.data[i].id <<endl;
+cout << " Nama   : " << stack.data[i].nama <<endl;
+cout << "Jumlah : " << stack.data[i].jumlah << endl;
+found = true;
+break;
+}
+}
+if (!found) { 
+cout << " Barang dengan ID '" << id << "' tidak ditemukan.\n";
+}
 }
