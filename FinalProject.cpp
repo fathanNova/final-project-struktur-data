@@ -59,15 +59,15 @@ int main() {
     return 0;
 }
 
-void init(){    //Satria
+void init(){    
     stack.top = -1;
 }
 
-bool full (){ //Satria
+bool full (){ 
     return stack.top == max-1;
 }
 
-bool empty() {  //satria
+bool empty() {  
     return stack.top == -1;
 }
 
