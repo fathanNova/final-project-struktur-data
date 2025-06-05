@@ -25,7 +25,6 @@ void searchById();
 int main() {
     init();
     int choice; // untuk menampilkan menu pilihan
-    
     do{
       system("cls");
       cout << " \n-----Program Pendataan Barang Gudang-----\n\n";
@@ -72,68 +71,73 @@ bool empty() {
 }
 
 void show() {
+    cin.ignore();
     if (!empty ()){
         cout<<"\n----Menampilkan Daftar Barang ----\n";
         for(int i = stack.top; i>=0; i--) {
-            cout<<"Id          : "<< stack.data[i].id<<endl;
+            cout<<"ID          : "<< stack.data[i].id<<endl;
             cout<<"Nama        : "<< stack.data[i].nama<<endl;
-            cout<<"Jumlah      : "<< stack.data[i].jumlah<<endl;
+            cout<<"Jumlah      : "<< stack.data[i].jumlah<<endl<<endl;
         }
     }else {
-        cout<<"\nStack Kosong";
+        cout<<"\nBarang Masih Kosong!\n\n";
     } 
     cin.get();
 }
 
 void push() {
     if (!full()) {
-        cout << "Masukkan ID Barang: "; cin >> barang.id;
-        cout << "Masukkan Nama Barang:"; cin >> barang.nama;
-        cout << "Masukkan Jumlah Barang:"; cin >> barang.jumlah;
-        stack.data[++stack.top] = barang;
+        cin.ignore();
+        stack.top++;
+        barang.id = stack.top+1;
+        cout << "ID Barang: "<<barang.id<<endl;
+        cout << "Masukkan Nama Barang: "; getline(cin, barang.nama); //cin >> barang.nama;
+        cout << "Masukkan Jumlah Barang: "; cin >> barang.jumlah;
+        stack.data[stack.top] = barang;
     }else {
-        cout <<"Stack sudah penuh.\n";
+        cout <<"\nBarang Sudah Penuh!\n\n";
     }
 }
 
 void searchByName() {
+    cin.ignore();
     string name;
-    cout << " Masukkan Nama Barang yang dicari: ";
-    cin >> name;
+    cout << "\nMasukkan Nama Barang yang dicari: "; getline(cin, name);
     bool found = false;
 
     for (int i = 0; i <= stack.top; i++) {
         if (stack.data [i].nama == name) {
             cout << "Barang ditemukan:\n";
-            cout << " ID      : " << stack.data[i].id<< endl;
+            cout << "ID       : " << stack.data[i].id<< endl;
             cout << "Nama     : " << stack.data[i].nama<< endl;
-            cout << "Jumlah   : " << stack.data[i].jumlah << endl;
+            cout << "Jumlah   : " << stack.data[i].jumlah << endl<<endl;
             found = true;
             break;
         }
     }
     if (found == false ) {
-        cout << " Barang dengan nama '"<< name << "' tidak ditemukan.\n";
+        cout << "\nBarang dengan nama '"<< name << "' tidak ditemukan.\n";
     }
+    getchar();
 }
 
 void searchById() {
     int id;
-    cout << " Masukkan ID barang yang dicari: ";
+    cout << "\nMasukkan ID barang yang dicari: ";
     cin >> id;
     bool found = false;
 
     for (int i = 0; i <= stack.top; i++) {
         if (stack.data[i].id == id) {
             cout << "Barang ditemukkan:\n";
-            cout  << " ID    : " << stack.data[i].id <<endl;
-            cout << " Nama   : " << stack.data[i].nama <<endl;
+            cout << "ID     : " << stack.data[i].id <<endl;
+            cout << "Nama   : " << stack.data[i].nama <<endl;
             cout << "Jumlah : " << stack.data[i].jumlah << endl;
             found = true;
             break;
         }
     }
     if (!found) { 
-        cout << " Barang dengan ID '" << id << "' tidak ditemukan.\n";
+        cout << "Barang dengan ID '" << id << "' tidak ditemukan.\n";
     }
 }
