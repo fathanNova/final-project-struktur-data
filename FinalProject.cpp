@@ -21,39 +21,45 @@ void show();
 void push(); //fungsi menampilkan barang baru
 void searchByName();
 void searchById();
+void restock();
+void takeByQuantity();
 
 int main() {
     init();
     int choice; // untuk menampilkan menu pilihan
     do{
       system("cls");
-      cout << " \n-----Program Pendataan Barang Gudang-----\n\n";
+      cout << " \n----- Program Pendataan Barang Gudang -----\n\n";
       cout << "1. Tambahkan Barang\n";
       cout << "2. Tampilkan Barang\n";
       cout << "3. Cari Barang Berdasarkan Nama\n";
       cout << "4. Cari Barang Berdasarkan ID\n";
-      cout << "5. Keluar\n\n";
+      cout << "5. Restock Barang\n";
+      cout << "6. Keluar\n\n";
       cout << "Masukkan Pilihan Anda : "; cin >> choice;
         switch (choice) {
             case 1:
-            push();
-            break;
+                push();
+                break;
             case 2:
-            show();
-            break;
+                show();
+                break;
             case 3:
-            searchByName();
-            break;
+                searchByName();
+                break;
             case 4:
-            searchById();
-            break;
+                searchById();
+                break;
             case 5:
-            cout <<"Keluar dari program.\n\n";
-            break;
+                restock();
+                break;
+            case 6:
+                cout <<"Keluar dari program.\n\n";
+                break;
             default:
             cout << "Pilihan tidak valid. Silahkan coba lagi./n";
         }
-    }while(choice != 5);
+    }while(choice != 6);
     system("pause");
     return 0;
 }
@@ -73,7 +79,7 @@ bool empty() {
 void show() {
     cin.ignore();
     if (!empty ()){
-        cout<<"\n----Menampilkan Daftar Barang ----\n";
+        cout<<"\n----- Menampilkan Daftar Barang -----\n";
         for(int i = stack.top; i>=0; i--) {
             cout<<"ID          : "<< stack.data[i].id<<endl;
             cout<<"Nama        : "<< stack.data[i].nama<<endl;
@@ -82,7 +88,7 @@ void show() {
     }else {
         cout<<"\nBarang Masih Kosong!\n\n";
     } 
-    cin.get();
+    getchar();
 }
 
 void push() {
@@ -90,13 +96,17 @@ void push() {
         cin.ignore();
         stack.top++;
         barang.id = stack.top+1;
-        cout << "ID Barang: "<<barang.id<<endl;
-        cout << "Masukkan Nama Barang: "; getline(cin, barang.nama); //cin >> barang.nama;
+        cout << "\n----- Menambahkan Barang -----\n";
+        cout << "\nID Barang: "<<barang.id<<endl;
+        cout << "Masukkan Nama Barang: "; getline(cin, barang.nama); 
         cout << "Masukkan Jumlah Barang: "; cin >> barang.jumlah;
         stack.data[stack.top] = barang;
     }else {
         cout <<"\nBarang Sudah Penuh!\n\n";
     }
+    cout<<endl;
+    getchar();
+    cin.get();
 }
 
 void searchByName() {
@@ -122,6 +132,7 @@ void searchByName() {
 }
 
 void searchById() {
+    cin.ignore();
     int id;
     cout << "\nMasukkan ID barang yang dicari: ";
     cin >> id;
@@ -138,6 +149,29 @@ void searchById() {
         }
     }
     if (!found) { 
-        cout << "Barang dengan ID '" << id << "' tidak ditemukan.\n";
+        cout << "Barang dengan ID '" << id << "' Tidak Ditemukan.\n";
     }
+    getchar();
+}
+
+void restock(){
+    cin.ignore();
+    string name;
+    int restock;
+
+    cout<<"\nMasukkan Nama Barang yang Ingin di Restock: "; getline(cin, name);
+    for(int i = 0; i <= stack.top; i++){
+        if(stack.data[i].nama == name){
+            cout<<"\nMasukkan Jumlah "<<name<<" yang Akan di Restock: "; cin>>restock;
+            stack.data[i].jumlah += restock;
+            
+            cout<<"\nData Berhasil Ditambahkan\n\n";
+            getchar();
+            cin.get();
+            break;
+        }else{
+            cout<<"\nBarang dengan Nama '"<<name<<"' Tidak Ditemukan !\n\n";
+            getchar();
+        }
+    } 
 }
