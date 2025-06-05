@@ -1,5 +1,7 @@
 #include <iostream>
 #include <conio.h>
+#include <algorithm>
+#include <cctype>
 using namespace std;
 #define max 50
 
@@ -17,6 +19,7 @@ struct stackBarang{
 void init();
 bool full();
 bool empty();
+string toLowerCase(string str);
 void show();
 void push(); //fungsi menampilkan barang baru
 void searchByName();
@@ -76,6 +79,11 @@ bool empty() {
     return stack.top == -1;
 }
 
+string toLowerCase(string str){
+    transform(str.begin(), str.end(), str.begin(), ::tolower);
+    return str;
+}
+
 void show() {
     cin.ignore();
     if (!empty ()){
@@ -116,7 +124,7 @@ void searchByName() {
     bool found = false;
 
     for (int i = 0; i <= stack.top; i++) {
-        if (stack.data [i].nama == name) {
+        if (toLowerCase(stack.data[i].nama) == toLowerCase(name)) {
             cout << "Barang ditemukan:\n";
             cout << "ID       : " << stack.data[i].id<< endl;
             cout << "Nama     : " << stack.data[i].nama<< endl;
@@ -161,8 +169,8 @@ void restock(){
 
     cout<<"\nMasukkan Nama Barang yang Ingin di Restock: "; getline(cin, name);
     for(int i = 0; i <= stack.top; i++){
-        if(stack.data[i].nama == name){
-            cout<<"\nMasukkan Jumlah "<<name<<" yang Akan di Restock: "; cin>>restock;
+        if(toLowerCase(stack.data[i].nama) == toLowerCase(name)){
+            cout<<"Masukkan Jumlah "<<name<<" yang Akan di Restock: "; cin>>restock;
             stack.data[i].jumlah += restock;
             
             cout<<"\nData Berhasil Ditambahkan\n\n";
