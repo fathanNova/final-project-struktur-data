@@ -2,6 +2,8 @@
 #include <conio.h>
 #include <algorithm>
 #include <cctype>
+#include <stdio.h>
+#include <iomanip>
 using namespace std;
 #define max 50
 
@@ -91,6 +93,7 @@ string toLowerCase(string str){
 
 void show() {
     cin.ignore();
+    /*
     if (!empty ()){
         cout<<"\n----- Menampilkan Daftar Barang -----\n";
         for(int i = stack.top; i>=0; i--) {
@@ -100,7 +103,22 @@ void show() {
         }
     }else {
         cout<<"\nBarang Masih Kosong!\n\n";
-    } 
+    }
+        */
+    cout << "Show Barang (Stack)\n";
+    if (empty()) {
+        cout << "Stack kosong!\n";
+    } else {
+        cout << setw(5) << "ID"
+             << setw(20) << "Nama"
+             << setw(10) << "Jumlah" << endl;
+        for (int i = stack.top; i >= 0; i--) {
+            cout << setw(5) << stack.data[i].id
+                 << setw(20) << stack.data[i].nama
+                 << setw(10) << stack.data[i].jumlah << endl;
+        }
+    }
+ 
     getchar();
 }
 
