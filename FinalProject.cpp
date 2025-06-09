@@ -24,6 +24,7 @@ bool empty();
 string toLowerCase(string str);
 void show();
 void push(); //fungsi menampilkan barang baru
+void deleteByName();
 void searchByName();
 void searchById();
 void restock();
@@ -41,7 +42,8 @@ int main() {
       cout << "4. Cari Barang Berdasarkan ID\n";
       cout << "5. Restock Barang\n";
       cout << "6. Ambil Barang\n";
-      cout << "7. Keluar\n\n";
+      cout << "7. Hapus Barang\n";
+      cout << "8. Keluar\n\n";
       cout << "Masukkan Pilihan Anda : "; cin >> choice;
         switch (choice) {
             case 1:
@@ -63,6 +65,9 @@ int main() {
                 takeByQuantity();
                 break;
             case 7:
+                deleteByName();
+                break;
+            case 8:
                 cout <<"Keluar dari program.\n\n";
                 break;
             default:
@@ -138,6 +143,39 @@ void push() {
     }
     getchar();
 }
+
+void deleteByName() {
+    if (empty()) {
+        cout << "\nStack kosong. Tidak ada barang yang bisa dihapus.\n";
+        getchar();
+        return;
+    }
+
+    string name;
+    cout << "\nMasukkan Nama Barang yang Ingin Dihapus: ";
+    getline(cin, name);
+    bool found = false;
+
+    for (int i = 0; i <= stack.top; i++) {
+        if (toLowerCase(stack.data[i].nama) == toLowerCase(name)) {
+            found = true;
+
+            for (int j = i; j < stack.top; j++) {
+                stack.data[j] = stack.data[j + 1];
+            }
+            stack.top--;
+            cout << "\nBarang dengan nama '" << name << "' berhasil dihapus.\n";
+            break;
+        }
+    }
+
+    if (!found) {
+        cout << "\nBarang dengan nama '" << name << "' tidak ditemukan.\n";
+    }
+
+    getchar();
+}
+
 
 void searchByName() {
     cin.ignore();
