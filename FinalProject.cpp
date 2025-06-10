@@ -71,10 +71,11 @@ int main() {
                 cout <<"Keluar dari program.\n\n";
                 break;
             default:
-            cout << "Pilihan tidak valid. Silahkan coba lagi./n";
+            cout << "Pilihan tidak valid. Silahkan coba lagi.\n\n";
             getchar();
+            cin.get();
         }
-    }while(choice != 7);
+    }while(choice != 8);
     system("pause");
     return 0;
 }
@@ -98,21 +99,9 @@ string toLowerCase(string str){
 
 void show() {
     cin.ignore();
-    /*
-    if (!empty ()){
-        cout<<"\n----- Menampilkan Daftar Barang -----\n";
-        for(int i = stack.top; i>=0; i--) {
-            cout<<"ID          : "<< stack.data[i].id<<endl;
-            cout<<"Nama        : "<< stack.data[i].nama<<endl;
-            cout<<"Jumlah      : "<< stack.data[i].jumlah<<endl<<endl;
-        }
-    }else {
-        cout<<"\nBarang Masih Kosong!\n\n";
-    }
-        */
-    cout << "Show Barang (Stack)\n";
+    cout << "\nMenampilkan Daftar Barang\n";
     if (empty()) {
-        cout << "Stack kosong!\n";
+        cout <<"\nBarang Kosong!\n\n";
     } else {
         cout << setw(5) << "ID"
              << setw(20) << "Nama"
@@ -145,52 +134,55 @@ void push() {
 }
 
 void deleteByName() {
+    cin.ignore();
+    string name;
+    bool found = false;
     if (empty()) {
-        cout << "\nStack kosong. Tidak ada barang yang bisa dihapus.\n";
+        cout << "\nBarang kosong! Tidak Ada Barang yang Dapat Dihapus.\n";
         getchar();
         return;
-    }
+    }else{
+        cout << "\nMasukkan Nama Barang yang Ingin Dihapus: ";
+        getline(cin, name);
 
-    string name;
-    cout << "\nMasukkan Nama Barang yang Ingin Dihapus: ";
-    getline(cin, name);
-    bool found = false;
+        for (int i = 0; i <= stack.top; i++) {
+            if (toLowerCase(stack.data[i].nama) == toLowerCase(name)) {
+                found = true;
 
-    for (int i = 0; i <= stack.top; i++) {
-        if (toLowerCase(stack.data[i].nama) == toLowerCase(name)) {
-            found = true;
-
-            for (int j = i; j < stack.top; j++) {
-                stack.data[j] = stack.data[j + 1];
+                for (int j = i; j < stack.top; j++) {
+                    stack.data[j] = stack.data[j + 1];
+                }
+                stack.top--;
+                cout << "\nBarang dengan Nama '" << name << "' Berhasil Dihapus.\n";
+               break;
             }
-            stack.top--;
-            cout << "\nBarang dengan nama '" << name << "' berhasil dihapus.\n";
-            break;
         }
     }
-
     if (!found) {
-        cout << "\nBarang dengan nama '" << name << "' tidak ditemukan.\n";
+        cout << "\nBarang dengan Nama '" << name << "' Tidak Ditemukan.\n";
     }
-
     getchar();
 }
-
 
 void searchByName() {
     cin.ignore();
     string name;
-    cout << "\nMasukkan Nama Barang yang dicari: "; getline(cin, name);
     bool found = false;
-
-    for (int i = 0; i <= stack.top; i++) {
-        if (toLowerCase(stack.data[i].nama) == toLowerCase(name)) {
-            cout << "Barang ditemukan:\n";
-            cout << "ID       : " << stack.data[i].id<< endl;
-            cout << "Nama     : " << stack.data[i].nama<< endl;
-            cout << "Jumlah   : " << stack.data[i].jumlah << endl<<endl;
-            found = true;
-            break;
+    if(empty()){
+        cout << "\nBarang kosong!\n";
+        getchar();
+        return; 
+    }else{
+        cout << "\nMasukkan Nama Barang yang Dicari: "; getline(cin, name);
+        for (int i = 0; i <= stack.top; i++) {
+            if (toLowerCase(stack.data[i].nama) == toLowerCase(name)) {
+                cout << "Barang ditemukan:\n";
+                cout << "ID       : " << stack.data[i].id<< endl;
+                cout << "Nama     : " << stack.data[i].nama<< endl;
+                cout << "Jumlah   : " << stack.data[i].jumlah << endl<<endl;
+                found = true;
+                break;
+            }
         }
     }
     if (!found) {
@@ -202,17 +194,24 @@ void searchByName() {
 void searchById() {
     int id;
     bool found = false;
-    cout << "\nMasukkan ID barang yang dicari: ";cin >> id;
-    cin.ignore();
+    if(empty()){
+        cout << "\nBarang kosong!\n";
+        getchar();
+        cin.get();
+        return; 
+    }else{
+        cout << "\nMasukkan ID barang yang dicari: ";cin >> id;
+        cin.ignore();
 
-    for (int i = 0; i <= stack.top; i++) {
-        if (stack.data[i].id == id) {
-            cout << "Barang ditemukkan:\n";
-            cout << "ID     : " << stack.data[i].id <<endl;
-            cout << "Nama   : " << stack.data[i].nama <<endl;
-            cout << "Jumlah : " << stack.data[i].jumlah <<endl<<endl;
-            found = true;
-            break;
+        for (int i = 0; i <= stack.top; i++) {
+            if (stack.data[i].id == id) {
+                cout << "Barang ditemukkan:\n";
+                cout << "ID     : " << stack.data[i].id <<endl;
+                cout << "Nama   : " << stack.data[i].nama <<endl;
+                cout << "Jumlah : " << stack.data[i].jumlah <<endl<<endl;
+                found = true;
+                break;
+            }
         }
     }
     if (!found) { 
@@ -227,18 +226,24 @@ void restock(){
     int restock;
     bool found = false;
 
-    cout<<"\nMasukkan Nama Barang yang Ingin di Restock: "; getline(cin, name);
-    for(int i = 0; i <= stack.top; i++){
-        if(toLowerCase(stack.data[i].nama) == toLowerCase(name)){
-            cout<<"Masukkan Jumlah "<<name<<" yang Akan di Restock: "; cin>>restock;
-            stack.data[i].jumlah += restock;
-            found = true;
-            cin.ignore();
+    if(empty()){
+         cout << "\nBarang kosong!\n";
+        getchar();
+        return;
+    }else{
+        cout<<"\nMasukkan Nama Barang yang Ingin di Restock: "; getline(cin, name);
+        for(int i = 0; i <= stack.top; i++){
+            if(toLowerCase(stack.data[i].nama) == toLowerCase(name)){
+                cout<<"Masukkan Jumlah "<<name<<" yang Akan di Restock: "; cin>>restock;
+                stack.data[i].jumlah += restock;
+                found = true;
+                cin.ignore();
 
-            cout<<"\nData Berhasil Disimpan\n\n";
-            break;
-        }
-    } 
+                cout<<"\nData Berhasil Disimpan\n\n";
+                break;
+            }
+        } 
+    }
     if(!found){
         cout<<"\nBarang dengan Nama '"<<name<<"' Tidak Ditemukan !\n\n";
     }
@@ -251,16 +256,22 @@ void takeByQuantity(){
     int take;
     bool found = false;
 
-    cout<<"\nMasukkan Nama Barang yang Akan Diambil: "; getline(cin, name);
-    for(int i = 0; i <= stack.top; i++){
-        if(toLowerCase(stack.data[i].nama) == toLowerCase(name)){
-            cout<<"Masukkan Jumlah "<<name<<" yang Akan Diambil: "; cin>>take;
-            stack.data[i].jumlah -= take;
-            found = true;
-            cin.ignore();
+    if(empty()){
+         cout << "\nBarang kosong!\n";
+        getchar();
+        return;
+    }else{
+        cout<<"\nMasukkan Nama Barang yang Akan Diambil: "; getline(cin, name);
+        for(int i = 0; i <= stack.top; i++){
+            if(toLowerCase(stack.data[i].nama) == toLowerCase(name)){
+                cout<<"Masukkan Jumlah "<<name<<" yang Akan Diambil: "; cin>>take;
+                stack.data[i].jumlah -= take;
+                found = true;
+                cin.ignore();
 
-            cout<<"\nData Berhasil Disimpan\n\n";
-            break;
+                cout<<"\nData Berhasil Disimpan\n\n";
+                break;
+            }
         }
     }
     if(!found){
