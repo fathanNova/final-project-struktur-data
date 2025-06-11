@@ -18,6 +18,12 @@ struct stackBarang{
     int top;
 }stack;
 
+struct historyNode{
+    string activity;
+    historyNode *next;
+};
+historyNode *head = NULL;
+
 void init();
 bool full();
 bool empty();
@@ -29,6 +35,8 @@ void searchByName();
 void searchById();
 void restock();
 void takeByQuantity();
+void addHistory(string activity);
+void showHistory();
 
 int main() {
     init();
@@ -43,7 +51,8 @@ int main() {
       cout << "5. Restock Barang\n";
       cout << "6. Ambil Barang\n";
       cout << "7. Hapus Barang\n";
-      cout << "8. Keluar\n\n";
+      cout << "8. Tampilkan Riwayat Aktivitas\n";
+      cout << "9. Keluar\n\n";
       cout << "Masukkan Pilihan Anda : "; cin >> choice;
         switch (choice) {
             case 1:
@@ -68,6 +77,9 @@ int main() {
                 deleteByName();
                 break;
             case 8:
+                showHistory();
+                break;
+            case 9:
                 cout <<"Keluar dari program.\n\n";
                 break;
             default:
@@ -75,7 +87,7 @@ int main() {
             getchar();
             cin.get();
         }
-    }while(choice != 8);
+    }while(choice != 9);
     system("pause");
     return 0;
 }
@@ -99,17 +111,17 @@ string toLowerCase(string str){
 
 void show() {
     cin.ignore();
-    cout << "\nMenampilkan Daftar Barang\n";
+    cout << "\n======= Menampilkan Daftar Barang =======\n";
     if (empty()) {
         cout <<"\nBarang Kosong!\n\n";
     } else {
-        cout << setw(5) << "ID"
-             << setw(20) << "Nama"
-             << setw(10) << "Jumlah" << endl;
+        cout << left << setw(10) << "ID"
+             << left << setw(25) << "Nama"
+             << left << setw(10) << "Jumlah" << endl;
         for (int i = stack.top; i >= 0; i--) {
-            cout << setw(5) << stack.data[i].id
-                 << setw(20) << stack.data[i].nama
-                 << setw(10) << stack.data[i].jumlah << endl;
+            cout << left << setw(10) << stack.data[i].id
+                 << left << setw(25) << stack.data[i].nama
+                 << left << setw(10) << stack.data[i].jumlah << endl;
         }
     }
  
@@ -119,14 +131,17 @@ void show() {
 void push() {
     if (!full()) {
         cin.ignore();
-        stack.top++;
-        barang.id = stack.top+1;
+        barang.id = stack.top+2;
         cout << "\n----- Menambahkan Barang -----\n";
         cout << "\nID Barang\t\t: "<<barang.id<<endl;
         cout << "Masukkan Nama Barang\t: "; getline(cin, barang.nama); 
         cout << "Masukkan Jumlah Barang \t: "; cin >> barang.jumlah;
+        stack.top++;
         stack.data[stack.top] = barang;
         cin.ignore();
+
+        cout<<"\nData Berhasil Ditambahkan\n\n";
+        addHistory("Menambahkan Barang: " + barang.nama);
     }else {
         cout <<"\nBarang Sudah Penuh!\n\n";
     }
@@ -147,12 +162,15 @@ void deleteByName() {
 
         for (int i = 0; i <= stack.top; i++) {
             if (toLowerCase(stack.data[i].nama) == toLowerCase(name)) {
-                found = true;
 
+                addHistory("Menghapus Barang: " + stack.data[i].nama);
+                found = true;
+                
                 for (int j = i; j < stack.top; j++) {
                     stack.data[j] = stack.data[j + 1];
                 }
                 stack.top--;
+
                 cout << "\nBarang dengan Nama '" << name << "' Berhasil Dihapus.\n";
                break;
             }
@@ -240,6 +258,7 @@ void restock(){
                 cin.ignore();
 
                 cout<<"\nData Berhasil Disimpan\n\n";
+                addHistory("Restock Barang: " + stack.data[i].nama + " Sejumlah " + to_string(restock));
                 break;
             }
         } 
@@ -270,12 +289,36 @@ void takeByQuantity(){
                 cin.ignore();
 
                 cout<<"\nData Berhasil Disimpan\n\n";
+                addHistory("Mengambil Barang: " + stack.data[i].nama + " Sejumlah " + to_string(take));
                 break;
             }
         }
     }
     if(!found){
         cout<<"\nBarang dengan Nama '"<<name<<"' Tidak Ditemukan !\n\n";
+    }
+    getchar();
+}
+
+void addHistory(string activity){
+    historyNode *add = new historyNode;
+    add -> activity = activity;
+    add -> next = head;
+    head = add;
+}
+
+void showHistory(){
+    cin.ignore();
+    cout<<"\n\n====== Riwayat Aktivitas =======\n\n";
+    if(head == NULL){
+        cout<<"\nTidak Ada Aktivitas\n\n";
+        getchar();
+        return;
+    }
+    historyNode *now = head;
+    while(now != NULL){
+        cout<<"- "<<now -> activity<<endl;
+        now = now -> next;
     }
     getchar();
 }
