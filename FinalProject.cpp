@@ -116,7 +116,7 @@ string toLowerCase(string str){
 
 void searching(){
     cin.ignore();
-    int choose;
+    string choose;
     do{
         system("cls");
         cout<<"Pilih Metode Pencarian: \n\n";
@@ -125,22 +125,19 @@ void searching(){
         cout<<"3. Kembali ke Menu\n";
         cout<<"\nMasukkan Pilihan Anda: "; cin>>choose;
 
-        switch(choose){
-            case 1:
-                searchByName();
-                break;
-            case 2:
-                searchById();
-                break;
-            case 3:
-                break;
-            default:
-                cout<<"\nPilihan Tidak Valid!\n\n";
-                break;
-                getchar();
-                cin.get();
+        if(choose == "1"){
+            searchByName();
+        }else if(choose == "2"){
+            searchById();
+        
+        }else if(choose == "3"){
+            break;
+        }else{
+            cout<<"\nPilihan Tidak Valid!\n\n";
+            getchar();
+            cin.get();
         }
-    }while(choose != 3);
+    }while(choose != "3");
     return;
 }
 
@@ -284,15 +281,14 @@ void searchById() {
         return; 
     }else{
         cout << "\nMasukkan ID Barang yang Dicari: ";cin >> id;
-        cin.ignore();
 
         for (int i = 0; i <= stack.top; i++) {
-            if (stack.data[i].id == id) {
-                cout << "\nBarang Ditemukan:\n";
+            if (stack.data[i].id == id) { 
+                cout << "\nBarang Ditemukan:\n";    
                 cout << "ID     : " << stack.data[i].id <<endl;
                 cout << "Nama   : " << stack.data[i].nama <<endl;
                 cout << "Jumlah : " << stack.data[i].jumlah <<endl<<endl;
-                addHistory("Mencari Barang dengan ID: " + stack.data[i].id);
+                addHistory("Mencari Barang dengan ID: " + to_string(stack.data[i].id));
                 found = true;
                 break;
             }
@@ -301,6 +297,7 @@ void searchById() {
     if (!found) { 
         cout << "\nBarang dengan ID '" << id << "' Tidak Ditemukan.\n\n";
     }
+    cin.ignore();
     getchar();
 }
 
