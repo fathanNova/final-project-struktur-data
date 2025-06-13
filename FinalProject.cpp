@@ -33,6 +33,11 @@ void push(); //fungsi menampilkan barang baru
 void deleteByName();
 void searchByName();
 void searchById();
+void searching();
+void sortByName();
+void sortBySmallest();
+void sortByLargest();
+void sorting();
 void restock();
 void takeByQuantity();
 void addHistory(string activity);
@@ -46,8 +51,8 @@ int main() {
       cout << " \n----- Program Pendataan Barang Gudang -----\n\n";
       cout << "1. Tambahkan Barang\n";
       cout << "2. Tampilkan Barang\n";
-      cout << "3. Cari Barang Berdasarkan Nama\n";
-      cout << "4. Cari Barang Berdasarkan ID\n";
+      cout << "3. Cari Barang\n";
+      cout << "4. Sorting Barang\n";
       cout << "5. Restock Barang\n";
       cout << "6. Ambil Barang\n";
       cout << "7. Hapus Barang\n";
@@ -62,10 +67,10 @@ int main() {
                 show();
                 break;
             case 3:
-                searchByName();
+                searching();
                 break;
             case 4:
-                searchById();
+                sorting();
                 break;
             case 5:
                 restock();
@@ -80,10 +85,10 @@ int main() {
                 showHistory();
                 break;
             case 9:
-                cout <<"Keluar dari program.\n\n";
+                cout <<"Keluar dari Program.\n\n";
                 break;
             default:
-            cout << "Pilihan tidak valid. Silahkan coba lagi.\n\n";
+            cout << "Pilihan Tidak Valid. Silahkan Coba Lagi.\n\n";
             getchar();
             cin.get();
         }
@@ -109,11 +114,70 @@ string toLowerCase(string str){
     return str;
 }
 
+void searching(){
+    cin.ignore();
+    int choose;
+    do{
+        system("cls");
+        cout<<"Pilih Metode Pencarian: \n\n";
+        cout<<"1. Cari Barang Berdasarkan Nama\n";
+        cout<<"2. Cari Barang Berdasarkan ID\n";
+        cout<<"3. Kembali ke Menu\n";
+        cout<<"\nMasukkan Pilihan Anda: "; cin>>choose;
+
+        switch(choose){
+            case 1:
+                searchByName();
+                break;
+            case 2:
+                searchById();
+                break;
+            case 3:
+                break;
+            default:
+                cout<<"\nPilihan Tidak Valid!\n\n";
+                break;
+                getchar();
+                cin.get();
+        }
+    }while(choose != 3);
+    return;
+}
+
+void sorting(){
+    cin.ignore();
+    string choose;
+    do{
+        system("cls");
+        cout<<"Pilih Metode Pengurutan: \n\n";
+        cout<<"1. Urutkan Barang Berdasarkan Nama (A-Z)\n";
+        cout<<"2. Urutkan Barang Berdasarkan Jumlah Terkecil\n";
+        cout<<"3. Urutkan Barang Berdasarkan Jumlah Terbesar\n";
+        cout<<"4. Kembali ke Menu\n";
+        cout<<"\nMasukkan Pilihan Anda: "; cin>>choose;
+
+        if(choose == "1"){
+            sortByName();
+        }else if(choose == "2"){
+            sortBySmallest();      
+        }else if(choose == "3"){
+            sortByLargest();
+        }else if (choose == "4"){
+            break;
+        }else{
+            cout<<"\nPilihan Tidak Valid!\n\n";
+            getchar();
+            cin.get();
+        }
+    }while(choose != "4");
+    return;
+}
+
 void show() {
     cin.ignore();
     cout << "\n======= Menampilkan Daftar Barang =======\n";
     if (empty()) {
-        cout <<"\nBarang Kosong!\n\n";
+        cout <<"\nBelum Ada Data Barang!\n\n";
     } else {
         cout << left << setw(10) << "ID"
              << left << setw(25) << "Nama"
@@ -153,7 +217,7 @@ void deleteByName() {
     string name;
     bool found = false;
     if (empty()) {
-        cout << "\nBarang kosong! Tidak Ada Barang yang Dapat Dihapus.\n";
+        cout << "\nBelum Ada Data Barang!\n\n";
         getchar();
         return;
     }else{
@@ -187,18 +251,19 @@ void searchByName() {
     string name;
     bool found = false;
     if(empty()){
-        cout << "\nBarang kosong!\n";
+        cout << "\nBelum Ada Data Barang!\n\n";
         getchar();
         return; 
     }else{
         cout << "\nMasukkan Nama Barang yang Dicari: "; getline(cin, name);
         for (int i = 0; i <= stack.top; i++) {
             if (toLowerCase(stack.data[i].nama) == toLowerCase(name)) {
-                cout << "Barang ditemukan:\n";
+                cout << "\nBarang ditemukan:\n";
                 cout << "ID       : " << stack.data[i].id<< endl;
                 cout << "Nama     : " << stack.data[i].nama<< endl;
                 cout << "Jumlah   : " << stack.data[i].jumlah << endl<<endl;
                 found = true;
+                addHistory("Mencari Barang dengan Nama: " + stack.data[i].nama);
                 break;
             }
         }
@@ -210,23 +275,24 @@ void searchByName() {
 }
 
 void searchById() {
+    cin.ignore();
     int id;
     bool found = false;
     if(empty()){
-        cout << "\nBarang kosong!\n";
+        cout << "\nBelum Ada Data Barang!\n\n";
         getchar();
-        cin.get();
         return; 
     }else{
-        cout << "\nMasukkan ID barang yang dicari: ";cin >> id;
+        cout << "\nMasukkan ID Barang yang Dicari: ";cin >> id;
         cin.ignore();
 
         for (int i = 0; i <= stack.top; i++) {
             if (stack.data[i].id == id) {
-                cout << "Barang ditemukkan:\n";
+                cout << "\nBarang Ditemukan:\n";
                 cout << "ID     : " << stack.data[i].id <<endl;
                 cout << "Nama   : " << stack.data[i].nama <<endl;
                 cout << "Jumlah : " << stack.data[i].jumlah <<endl<<endl;
+                addHistory("Mencari Barang dengan ID: " + stack.data[i].id);
                 found = true;
                 break;
             }
@@ -245,7 +311,7 @@ void restock(){
     bool found = false;
 
     if(empty()){
-         cout << "\nBarang kosong!\n";
+         cout << "\nBelum Ada Data Barang!\n\n";
         getchar();
         return;
     }else{
@@ -276,7 +342,7 @@ void takeByQuantity(){
     bool found = false;
 
     if(empty()){
-         cout << "\nBarang kosong!\n";
+         cout << "\nBelum Ada Data Barang!\n\n";
         getchar();
         return;
     }else{
@@ -321,4 +387,70 @@ void showHistory(){
         now = now -> next;
     }
     getchar();
+}
+
+void sortByName(){
+    cin.ignore();
+    if (empty()) {
+        cout << "\nBelum Ada Data Barang!\n\n";
+        getchar();
+        return;
+    }else{
+        for (int i = 0; i < stack.top; i++) {
+            for (int j = 0; j < stack.top - i; j++) {
+                if (toLowerCase(stack.data[j].nama) < toLowerCase(stack.data[j + 1].nama)) {
+                    barangGudang temp = stack.data[j];
+                    stack.data[j] = stack.data[j + 1];
+                    stack.data[j + 1] = temp;
+                }
+            }
+        }
+    }
+    addHistory("Mengurutkan Barang Berdasarkan Nama");
+    cout << "\nBarang Selesai Diurutkan\n";
+    show();
+}
+
+void sortBySmallest(){
+    cin.ignore();
+    if (empty()) {
+        cout << "\nBelum Ada Data Barang!\n\n";
+        getchar();
+        return;
+    }else{
+        for (int i = 0; i < stack.top; i++) {
+            for (int j = 0; j < stack.top - i; j++) {
+                if (stack.data[j].jumlah < stack.data[j + 1].jumlah) {
+                    barangGudang temp = stack.data[j];
+                    stack.data[j] = stack.data[j + 1];
+                    stack.data[j + 1] = temp;
+                }
+            }
+        }
+    }
+    addHistory("Mengurutkan Barang Berdasarkan Jumlah yang Terkecil");
+    cout << "\nBarang Selesai Diurutkan\n";
+    show();
+}
+
+void sortByLargest(){
+     cin.ignore();
+    if (empty()) {
+        cout << "\nBelum Ada Data Barang!\n\n";
+        getchar();
+        return;
+    }else{
+        for (int i = 0; i < stack.top; i++) {
+            for (int j = 0; j < stack.top - i; j++) {
+                if (stack.data[j].jumlah > stack.data[j + 1].jumlah) {
+                    barangGudang temp = stack.data[j];
+                    stack.data[j] = stack.data[j + 1];
+                    stack.data[j + 1] = temp;
+                }
+            }
+        }
+    }
+    addHistory("Mengurutkan Barang Berdasarkan Jumlah yang Tebesar");
+    cout << "\nBarang Selesai Diurutkan\n";
+    show();
 }
