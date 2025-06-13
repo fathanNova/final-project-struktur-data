@@ -4,8 +4,8 @@
 #include <cctype>
 #include <stdio.h>
 #include <iomanip>
-using namespace std;
 #define max 50
+using namespace std;
 
 struct barangGudang{
     int id;
@@ -115,7 +115,6 @@ string toLowerCase(string str){
 }
 
 void searching(){
-    cin.ignore();
     string choose;
     do{
         system("cls");
@@ -138,11 +137,9 @@ void searching(){
             cin.get();
         }
     }while(choose != "3");
-    return;
 }
 
 void sorting(){
-    cin.ignore();
     string choose;
     do{
         system("cls");
@@ -166,13 +163,12 @@ void sorting(){
             getchar();
             cin.get();
         }
-    }while(choose != "4");
-    return;
+    }while(choose != "4");  
 }
 
 void show() {
     cin.ignore();
-    cout << "\n======= Menampilkan Daftar Barang =======\n";
+    cout << "\n======= Menampilkan Daftar Barang =======\n\n";
     if (empty()) {
         cout <<"\nBelum Ada Data Barang!\n\n";
     } else {
@@ -185,7 +181,6 @@ void show() {
                  << left << setw(10) << stack.data[i].jumlah << endl;
         }
     }
- 
     getchar();
 }
 
@@ -280,7 +275,15 @@ void searchById() {
         getchar();
         return; 
     }else{
-        cout << "\nMasukkan ID Barang yang Dicari: ";cin >> id;
+        cout << "\nMasukkan ID Barang yang Dicari: ";
+
+        if(!(cin>>id)){
+            cout<<"\nInput ID Harus dengan Angka\n\n";
+            cin.clear();
+            cin.ignore(100, '\n');
+            getchar();
+            return;
+        }
 
         for (int i = 0; i <= stack.top; i++) {
             if (stack.data[i].id == id) { 
