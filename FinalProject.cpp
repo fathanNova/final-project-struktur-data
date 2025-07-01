@@ -48,7 +48,7 @@ void showHistory();
 
 int main() {
     init();
-    int choice; // untuk menampilkan menu pilihan
+    string choice; // untuk menampilkan menu pilihan
     do{
       system("cls");
       cout << " \n----- Program Pendataan Barang Gudang -----\n\n";
@@ -62,40 +62,31 @@ int main() {
       cout << "8. Tampilkan Riwayat Aktivitas\n";
       cout << "9. Keluar\n\n";
       cout << "Masukkan Pilihan Anda : "; cin >> choice;
-        switch (choice) {
-            case 1:
+        if (choice == "1" ) {
                 push();
-                break;
-            case 2:
+        }else if (choice == "2"){
                 show();
-                break;
-            case 3:
+        }else if (choice == "3"){
                 searching();
-                break;
-            case 4:
+        }else if (choice == "4"){
                 sorting();
-                break;
-            case 5:
+        }else if (choice == "5"){
                 restock();
-                break;
-            case 6:
+        }else if (choice == "6"){
                 takeByQuantity();
-                break;
-            case 7:
+        }else if (choice == "7"){
                 deleteByName();
-                break;
-            case 8:
+        }else if (choice == "8"){
                 showHistory();
+        }else if(choice == "9"){
+                cout <<"\nKeluar dari Program.\n\n";
                 break;
-            case 9:
-                cout <<"Keluar dari Program.\n\n";
-                break;
-            default:
-            cout << "Pilihan Tidak Valid. Silahkan Coba Lagi.\n\n";
+        } else {
+            cout << "\nPilihan Tidak Valid. Silahkan Coba Lagi.\n\n";
             getchar();
             cin.get();
         }
-    }while(choice != 9);
+    }while(choice != "9");
     system("pause");
     return 0;
 }
@@ -264,7 +255,6 @@ void searchByName() {
                 cout << "Nama     : " << stack.data[i].nama<< endl;
                 cout << "Jumlah   : " << stack.data[i].jumlah << endl<<endl;
                 found = true;
-                addHistory("Mencari Barang dengan Nama: " + stack.data[i].nama);
                 break;
             }
         }
@@ -307,7 +297,6 @@ void searchById() {
                 cout << "ID     : " << stack.data[i].id <<endl;
                 cout << "Nama   : " << stack.data[i].nama <<endl;
                 cout << "Jumlah : " << stack.data[i].jumlah <<endl<<endl;
-                addHistory("Mencari Barang dengan ID: " + to_string(stack.data[i].id));
                 found = true;
                 break;
             }
@@ -424,7 +413,6 @@ void sortByName(){
             }
         }
     }
-    addHistory("Mengurutkan Barang Berdasarkan Nama");
     cout << "\nBarang Selesai Diurutkan\n";
     show();
 }
@@ -446,7 +434,6 @@ void sortBySmallest(){
             }
         }
     }
-    addHistory("Mengurutkan Barang Berdasarkan Jumlah yang Terkecil");
     cout << "\nBarang Selesai Diurutkan\n";
     show();
 }
@@ -468,7 +455,6 @@ void sortByLargest(){
             }
         }
     }
-    addHistory("Mengurutkan Barang Berdasarkan Jumlah yang Tebesar");
     cout << "\nBarang Selesai Diurutkan\n";
     show();
 }
