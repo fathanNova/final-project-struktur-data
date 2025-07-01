@@ -7,6 +7,7 @@
 #define max 50
 using namespace std;
 
+/// struct untuk menyimpan data barang
 struct barangGudang{
     int id;
     string nama;
@@ -18,6 +19,7 @@ struct stackBarang{
     int top;
 }stack;
 
+/// Struct untuk Linked List
 struct historyNode{
     string activity;
     historyNode *next;
@@ -37,6 +39,7 @@ void searching();
 void sortByName();
 void sortBySmallest();
 void sortByLargest();
+void sortByID();
 void sorting();
 void restock();
 void takeByQuantity();
@@ -109,6 +112,11 @@ bool empty() {
     return stack.top == -1;
 }
 
+/// Fungsi untuk mengubah semua karakter menjadi huruf kecil agar tidak terjadi error.
+// transform dari library <algorithm> dan tolower dari library <cctype>
+// transform akan mengubah karakter yang dimulai dari str.begin() hingga str.end() 
+// (bisa dibilang satu kata utuh) lalu menyimpanya ke str.begin() ketiga dan diubah menggunakan tolower.
+// tolower mengubah karakter sebagai input dan mengembalikannya dalam bentuk huruf kecil (lowercase)
 string toLowerCase(string str){
     transform(str.begin(), str.end(), str.begin(), ::tolower);
     return str;
@@ -157,6 +165,7 @@ void sorting(){
         }else if(choose == "3"){
             sortByLargest();
         }else if (choose == "4"){
+            sortByID();
             break;
         }else{
             cout<<"\nPilihan Tidak Valid!\n\n";
@@ -277,6 +286,13 @@ void searchById() {
     }else{
         cout << "\nMasukkan ID Barang yang Dicari: ";
 
+        // Merupakan percabangan untuk mengecek input apakah bernilai integer atau bukan.
+        // Bila input bukan berupa integer maka akan menjalankan perintah didalamnya.
+        // cin.clear digunakan untuk membersihkan atau mereset staus error saat 'cin' gagal
+        // membaca input sehingga 'cin' bisa digunakan lagi untuk operasi input selanjutnya.
+        // cin.ignore(100, \n) digunakan untuk membuang karakter dari input buffer
+        // 100 berarti mengabaikan 100 karakter, dan '\n' digunakan untuk berhenti mengabaikan
+        // karakter jika menemukan karakter newline (pengguna menekan tombol Enter) 
         if(!(cin>>id)){
             cout<<"\nInput ID Harus dengan Angka\n\n";
             cin.clear();
@@ -355,7 +371,8 @@ void takeByQuantity(){
                 cin.ignore();
 
                 cout<<"\nData Berhasil Disimpan\n\n";
-                addHistory("Mengambil Barang: " + stack.data[i].nama + " Sejumlah " + to_string(take));
+                addHistory("Mengambil Barang: " + stack.data[i].nama + " Sejumlah " + to_string(take)); 
+                // to_string digunakan untuk mengubah nilai dari tipe data int (take) menjadi string 
                 break;
             }
         }
@@ -366,6 +383,7 @@ void takeByQuantity(){
     getchar();
 }
 
+// fungsi Linked List untuk menambahkan histori
 void addHistory(string activity){
     historyNode *add = new historyNode;
     add -> activity = activity;
@@ -454,3 +472,16 @@ void sortByLargest(){
     cout << "\nBarang Selesai Diurutkan\n";
     show();
 }
+
+void sortByID(){
+    for (int i = 0; i < stack.top; i++) {
+        for (int j = 0; j < stack.top - i; j++) {
+            if (stack.data[j].id > stack.data[j + 1].id) {
+                barangGudang temp = stack.data[j];
+                stack.data[j] = stack.data[j + 1];
+                stack.data[j + 1] = temp;
+            }
+        }
+    }
+}
+    
