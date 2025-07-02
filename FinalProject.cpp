@@ -358,6 +358,12 @@ void takeByQuantity(){
                 stack.data[i].jumlah -= take;
                 found = true;
                 cin.ignore();
+                if(stack.data[i].jumlah < 0){
+                    stack.data[i].jumlah += take;
+                    cout<<"\nJumlah Maksimal yang Bisa Diambil adalah "<<stack.data[i].jumlah<<endl;
+                    break;
+                }
+                
 
                 cout<<"\nData Berhasil Disimpan\n\n";
                 addHistory("Mengambil Barang: " + stack.data[i].nama + " Sejumlah " + to_string(take)); 
@@ -469,5 +475,4 @@ void sortByID(){
             }
         }
     }
-}
-    
+}   
