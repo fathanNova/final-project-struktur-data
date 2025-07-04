@@ -39,7 +39,6 @@ void searching();
 void sortByName();
 void sortBySmallest();
 void sortByLargest();
-void sortByID();
 void sorting();
 void restock();
 void takeByQuantity();
@@ -156,7 +155,6 @@ void sorting(){
         }else if(choose == "3"){
             sortByLargest();
         }else if (choose == "4"){
-            sortByID();
             break;
         }else{
             cout<<"\nPilihan Tidak Valid!\n\n";
@@ -464,15 +462,3 @@ void sortByLargest(){
     cout << "\nBarang Selesai Diurutkan\n";
     show();
 }
-
-void sortByID(){
-    for (int i = 0; i < stack.top; i++) {
-        for (int j = 0; j < stack.top - i; j++) {
-            if (stack.data[j].id > stack.data[j + 1].id) {
-                barangGudang temp = stack.data[j];
-                stack.data[j] = stack.data[j + 1];
-                stack.data[j + 1] = temp;
-            }
-        }
-    }
-}   
